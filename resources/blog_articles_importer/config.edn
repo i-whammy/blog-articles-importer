@@ -1,0 +1,19 @@
+{:duct.profile/base
+ {:duct.core/project-ns blog-articles-importer
+  :duct.server.http/jetty {:port 3000}
+
+  :duct.router/ataraxy
+  {:routes {[:get "/ping"] [:blog-articles-importer.handler/ping]}}
+
+  :blog-articles-importer.handler/ping
+  {}}
+
+ :duct.profile/dev   #duct/include "dev"
+ :duct.profile/local #duct/include "local"
+ :duct.profile/prod  {}
+
+ :duct.module/logging {}
+ :duct.module.web/api
+ {}
+ :duct.module/sql
+ {}}
