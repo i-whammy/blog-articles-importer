@@ -1,6 +1,6 @@
 # blog-articles-importer
 
-FIXME: description
+Appliation importing articles from blogs.
 
 ## Developing
 

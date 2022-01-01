@@ -1,0 +1,73 @@
+(ns blog-articles-importer.usecase.uzabase
+  (:require [clj-http.client :as http]
+            [net.cgrand.enlive-html :as html]
+            [next.jdbc :as jdbc]
+            [next.jdbc.connection :as connection]
+            [hugsql.core :as hugsql])
+  (:import com.zaxxer.hikari.HikariDataSource))
+
+(hugsql/def-sqlvec-fns "blog_articles_importer/db/articles.sql")
+(declare store-articles-sqlvec)
+
+(def ^:private base-url "https://tech.uzabase.com/feed/category/Blog")
+(def ^:private company-name "株式会社ユーザベース")
+
+(def ^:private spec
+  {:dbtype "postgres"
+   :dbname "blog"
+   :username "postgres"
+   :password "password"
+   :port-number 5432})
+
+(defn- gen-connection []
+  (connection/->pool HikariDataSource spec))
+
+(defn- get-articles-body []
+  (-> (http/get base-url)
+      :body))
+
+(defn- extract [body]
+  (-> body
+      (html/html-snippet)
+      (html/select #{[:entry :title] [:entry :published] [:entry :link]})))
+
+(defn- transform [tuple]
+  (map (fn [[title link pubdate _]]
+         {:title (first (:content title))
+          :publish-date (first (:content pubdate))
+          :url (get-in link [:attrs :href])
+          :company-name company-name})
+       tuple))
+
+(defn- ->articles [content]
+  (->> (partition 4 content)
+       (transform)))
+
+;; [{:title "a" :publish-date "2021-01-01" :url "" :company-name "株式会社ユーザベース"}]
+;; ここまではできた
+(defn fetch []
+  (->> (get-articles-body)
+       (extract)
+       (->articles)))
+
+(defn ->articles-vec [articles]
+  (reduce 
+   (fn [acc {:keys [title publish-date url company-name]}]
+     (conj acc
+           title
+           (java.time.OffsetDateTime/parse publish-date)
+           url
+           company-name))
+   []
+   articles))
+
+;; publish-datetimeをいい感じの形に変換して突っ込めるようにする
+;; commitする前には最低限DuctでDBの接続情報部分を切り離す
+(defn store [articles]
+  (let [articles-vec (->articles-vec articles)]
+    (with-open [conn (gen-connection)]
+     (jdbc/execute! conn (store-articles-sqlvec {:articles articles-vec})))))
+
+(defn execute []
+  (-> (fetch)
+      (store)))
