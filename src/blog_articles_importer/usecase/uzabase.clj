@@ -43,30 +43,29 @@
   (->> (partition 4 content)
        (transform)))
 
-;; [{:title "a" :publish-date "2021-01-01" :url "" :company-name "株式会社ユーザベース"}]
-;; ここまではできた
 (defn fetch []
   (->> (get-articles-body)
        (extract)
        (->articles)))
 
-(defn ->articles-vec [articles]
-  (reduce 
+(defn- ->article-vec [title publish-date url company-name]
+  (conj []
+        title
+        (subs (str (java.time.OffsetDateTime/parse publish-date)) 0 10)
+        url
+        company-name))
+
+(defn- ->articles-vec [articles]
+  (reduce
    (fn [acc {:keys [title publish-date url company-name]}]
-     (conj acc
-           title
-           (java.time.OffsetDateTime/parse publish-date)
-           url
-           company-name))
+     (conj acc (->article-vec title publish-date url company-name)))
    []
    articles))
 
-;; publish-datetimeをいい感じの形に変換して突っ込めるようにする
-;; commitする前には最低限DuctでDBの接続情報部分を切り離す
 (defn store [articles]
   (let [articles-vec (->articles-vec articles)]
     (with-open [conn (gen-connection)]
-     (jdbc/execute! conn (store-articles-sqlvec {:articles articles-vec})))))
+      (jdbc/execute! conn (store-articles-sqlvec {:articles articles-vec})))))
 
 (defn execute []
   (-> (fetch)
