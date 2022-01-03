@@ -48,10 +48,13 @@
        (extract)
        (->articles)))
 
+(defn- ->iso-publish-date [publish-date]
+  (.format (java.time.OffsetDateTime/parse publish-date) (java.time.format.DateTimeFormatter/ISO_LOCAL_DATE)))
+
 (defn- ->article-vec [title publish-date url company-name]
   (conj []
         title
-        (subs (str (java.time.OffsetDateTime/parse publish-date)) 0 10)
+        (->iso-publish-date publish-date)
         url
         company-name))
 
