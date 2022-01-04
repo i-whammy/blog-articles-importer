@@ -3,9 +3,13 @@
   :duct.server.http/jetty {:port 3000}
 
   :duct.router/ataraxy
-  {:routes {[:get "/ping"] [:blog-articles-importer.handler/ping]}}
+  {:routes {[:get "/ping"] [:blog-articles-importer.handler/ping]
+            [:put "/articles"] [:blog-articles-importer.handler/register]}}
 
   :blog-articles-importer.handler/ping
+  {}
+
+  :blog-articles-importer.handler/register
   {}}
 
  :duct.profile/dev   #duct/include "dev"
@@ -15,5 +19,4 @@
  :duct.module/logging {}
  :duct.module.web/api
  {}
- :duct.module/sql
- {}}
+ }
