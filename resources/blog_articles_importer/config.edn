@@ -4,12 +4,17 @@
 
   :duct.router/ataraxy
   {:routes {[:get "/ping"] [:blog-articles-importer.handler/ping]
-            [:put "/articles"] [:blog-articles-importer.handler/register]}}
+            "/articles"
+            {[:put] [:blog-articles-importer.handler/register]
+             [:get] [:blog-articles-importer.handler/get]}}}
 
   :blog-articles-importer.handler/ping
   {}
 
   :blog-articles-importer.handler/register
+  {}
+
+  :blog-articles-importer.handler/get
   {}}
 
  :duct.profile/dev   #duct/include "dev"
@@ -18,5 +23,4 @@
 
  :duct.module/logging {}
  :duct.module.web/api
- {}
- }
+ {}}

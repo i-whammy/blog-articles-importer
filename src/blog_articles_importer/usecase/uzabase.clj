@@ -3,11 +3,13 @@
             [net.cgrand.enlive-html :as html]
             [next.jdbc :as jdbc]
             [next.jdbc.connection :as connection]
-            [hugsql.core :as hugsql])
+            [hugsql.core :as hugsql]
+            [next.jdbc.result-set :as rs])
   (:import com.zaxxer.hikari.HikariDataSource))
 
-(hugsql/def-sqlvec-fns "blog_articles_importer/db/articles.sql")
+(hugsql/def-sqlvec-fns "blog_articles_importer/db/sql/articles.sql")
 (declare store-articles-sqlvec)
+(declare get-articles-sqlvec)
 
 (def ^:private base-url "https://tech.uzabase.com/feed/category/Blog")
 (def ^:private company-name "株式会社ユーザベース")
@@ -39,14 +41,14 @@
           :company-name company-name})
        tuple))
 
-(defn- ->articles [content]
+(defn- ->articles-entity [content]
   (->> (partition 4 content)
        (transform)))
 
 (defn fetch []
   (->> (get-articles-body)
        (extract)
-       (->articles)))
+       (->articles-entity)))
 
 (defn- ->iso-publish-date [publish-date]
   (.format (java.time.OffsetDateTime/parse publish-date) (java.time.format.DateTimeFormatter/ISO_LOCAL_DATE)))
@@ -73,3 +75,10 @@
 (defn execute []
   (-> (fetch)
       (store)))
+
+(defn- get* []
+  (with-open [conn (gen-connection)]
+    (jdbc/execute! conn (get-articles-sqlvec {:company-name company-name}) {:builder-fn rs/as-unqualified-maps})))
+
+(defn get-articles []
+  (get*))
