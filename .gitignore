@@ -12,6 +12,7 @@ pom.xml.asc
 /profiles.clj
 /dev/resources/local.edn
 /dev/src/local.clj
+/resources/blog_articles_importer/db
 
 # dev-only
 /.calva
