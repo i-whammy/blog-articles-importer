@@ -4,18 +4,16 @@
 
   :duct.router/ataraxy
   {:routes {[:get "/ping"] [:blog-articles-importer.handler/ping]
-            "/articles"
+            "/articles" ^:camelizer
             {[:put] [:blog-articles-importer.handler/register]
-             [:get] [:blog-articles-importer.handler/get]}}}
+             [:get] [:blog-articles-importer.handler/get]}}
+   :middleware {:camelizer #ig/ref :blog-articles-importer.middleware/camelizer}}
 
-  :blog-articles-importer.handler/ping
-  {}
-
-  :blog-articles-importer.handler/register
-  {}
-
-  :blog-articles-importer.handler/get
-  {}}
+  :blog-articles-importer.handler/ping{}
+  :blog-articles-importer.handler/register {}
+  :blog-articles-importer.handler/get {}
+  :blog-articles-importer.middleware/camelizer {}
+  }
 
  :duct.profile/dev   #duct/include "dev"
  :duct.profile/local #duct/include "local"
