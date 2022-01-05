@@ -47,13 +47,14 @@
   (->> (partition 4 content)
        (transform)))
 
-(defn fetch []
+(defn- fetch []
   (->> (get-articles-body)
        (extract)
        (->articles-entity)))
 
 (defn- ->iso-publish-date [publish-date]
-  (.format (java.time.OffsetDateTime/parse publish-date) (java.time.format.DateTimeFormatter/ISO_LOCAL_DATE)))
+  (.format (java.time.OffsetDateTime/parse publish-date)
+           (java.time.format.DateTimeFormatter/ISO_LOCAL_DATE)))
 
 (defn- ->article-vec [{:keys [id title publish-date url company-name]}]
   (conj []
@@ -70,14 +71,19 @@
    []
    articles))
 
-(defn store [articles]
+(defn- store [articles]
   (let [articles-vec (->articles-vec articles)]
     (with-open [conn (gen-connection)]
-      (jdbc/execute! conn (store-articles-sqlvec {:articles articles-vec})))))
+      (jdbc/execute! conn (store-articles-sqlvec {:articles articles-vec})
+                     {:return-keys true :builder-fn rs/as-unqualified-maps}))))
 
-(defn execute []
+(defn- collect-registered-ids [returned-articles]
+  {:registered-ids (map :id returned-articles)})
+
+(defn register []
   (-> (fetch)
-      (store)))
+      (store)
+      (collect-registered-ids)))
 
 (defn- get* []
   (with-open [conn (gen-connection)]
