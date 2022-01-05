@@ -11,7 +11,7 @@
   (cond
     (map? col) (camelize-keys-in-map col)
     (vector? col) (vec (map camelize-keys col))
-    (seq? col) (conj '() (camelize-keys (first col)))
+    (seq? col) (lazy-seq (map camelize-keys  col))
     :else col))
 
 (defn wrap-camelize [handler]
