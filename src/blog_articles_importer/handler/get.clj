@@ -3,6 +3,6 @@
             [ataraxy.response :as response]
             [blog-articles-importer.usecase.uzabase :as uzabase]))
 
-(defmethod ig/init-key :blog-articles-importer.handler/get [_ _]
+(defmethod ig/init-key :blog-articles-importer.handler/get [_ options]
   (fn [{[_] :ataraxy/result}]
-    [::response/ok (uzabase/get-articles)]))
+    [::response/ok (uzabase/get-articles options)]))

@@ -1,28 +1,10 @@
 (ns blog-articles-importer.usecase.uzabase
   (:require [clj-http.client :as http]
             [net.cgrand.enlive-html :as html]
-            [next.jdbc :as jdbc]
-            [next.jdbc.connection :as connection]
-            [hugsql.core :as hugsql]
-            [next.jdbc.result-set :as rs])
-  (:import com.zaxxer.hikari.HikariDataSource))
-
-(hugsql/def-sqlvec-fns "blog_articles_importer/db/sql/articles.sql")
-(declare store-articles-sqlvec)
-(declare get-articles-sqlvec)
+            [blog-articles-importer.boundary.article :as boundary]))
 
 (def ^:private base-url "https://tech.uzabase.com/feed/category/Blog")
 (def ^:private company-name "株式会社ユーザベース")
-
-(def ^:private spec
-  {:dbtype "postgres"
-   :dbname "blog"
-   :username "postgres"
-   :password "password"
-   :port-number 5432})
-
-(defn- gen-connection []
-  (connection/->pool HikariDataSource spec))
 
 (defn- get-articles-body []
   (-> (http/get base-url)
@@ -71,23 +53,14 @@
    []
    articles))
 
-(defn- store [articles]
-  (let [articles-vec (->articles-vec articles)]
-    (with-open [conn (gen-connection)]
-      (jdbc/execute! conn (store-articles-sqlvec {:articles articles-vec})
-                     {:return-keys true :builder-fn rs/as-unqualified-maps}))))
-
 (defn- collect-registered-ids [returned-articles]
   {:registered-ids (map :id returned-articles)})
 
-(defn register []
-  (-> (fetch)
-      (store)
-      (collect-registered-ids)))
+(defn register [{:keys [article-boundary]}]
+  (->> (fetch)
+       (->articles-vec)
+       (boundary/store article-boundary)
+       (collect-registered-ids)))
 
-(defn- get* []
-  (with-open [conn (gen-connection)]
-    (jdbc/execute! conn (get-articles-sqlvec {:company-name company-name}) {:builder-fn rs/as-unqualified-maps})))
-
-(defn get-articles []
-  (get*))
+(defn get-articles [{:keys [article-boundary]}]
+  (boundary/get-by article-boundary company-name))

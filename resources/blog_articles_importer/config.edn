@@ -9,10 +9,12 @@
              [:get] [:blog-articles-importer.handler/get]}}
    :middleware {:camelizer #ig/ref :blog-articles-importer.middleware/camelizer}}
 
-  :blog-articles-importer.handler/ping{}
-  :blog-articles-importer.handler/register {}
-  :blog-articles-importer.handler/get {}
+  :blog-articles-importer.handler/ping {}
+  :blog-articles-importer.handler/register {:article-boundary #ig/ref :blog-articles-importer.driver/article}
+  :blog-articles-importer.handler/get {:article-boundary #ig/ref :blog-articles-importer.driver/article}
   :blog-articles-importer.middleware/camelizer {}
+
+  :blog-articles-importer.driver/article {:a "b"}
   }
 
  :duct.profile/dev   #duct/include "dev"

@@ -5,4 +5,4 @@
 
 (defmethod ig/init-key :blog-articles-importer.handler/register [_ options]
   (fn [{[_] :ataraxy/result}]
-    [::response/ok (uzabase/register)]))
+    [::response/ok (uzabase/register options)]))
