@@ -35,10 +35,12 @@
 
 (defn- transform [tuple]
   (map (fn [[title link pubdate _]]
-         {:title (first (:content title))
-          :publish-date (first (:content pubdate))
-          :url (get-in link [:attrs :href])
-          :company-name company-name})
+         (let [url (get-in link [:attrs :href])]
+           {:id (clojure.string/replace url #"[^0-9]" "")
+            :title (first (:content title))
+            :publish-date (first (:content pubdate))
+            :url url
+            :company-name company-name}))
        tuple))
 
 (defn- ->articles-entity [content]
@@ -53,8 +55,9 @@
 (defn- ->iso-publish-date [publish-date]
   (.format (java.time.OffsetDateTime/parse publish-date) (java.time.format.DateTimeFormatter/ISO_LOCAL_DATE)))
 
-(defn- ->article-vec [title publish-date url company-name]
+(defn- ->article-vec [{:keys [id title publish-date url company-name]}]
   (conj []
+        id
         title
         (->iso-publish-date publish-date)
         url
@@ -62,8 +65,8 @@
 
 (defn- ->articles-vec [articles]
   (reduce
-   (fn [acc {:keys [title publish-date url company-name]}]
-     (conj acc (->article-vec title publish-date url company-name)))
+   (fn [acc article]
+     (conj acc (->article-vec article)))
    []
    articles))
 
