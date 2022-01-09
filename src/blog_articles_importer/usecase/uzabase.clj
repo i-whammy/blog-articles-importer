@@ -29,11 +29,6 @@
   (->> (partition 4 content)
        (transform)))
 
-(defn- fetch []
-  (->> (get-articles-body)
-       (extract)
-       (->articles-entity)))
-
 (defn- ->iso-publish-date [publish-date]
   (.format (java.time.OffsetDateTime/parse publish-date)
            (java.time.format.DateTimeFormatter/ISO_LOCAL_DATE)))
@@ -53,12 +48,17 @@
    []
    articles))
 
+(defn- fetch []
+  (->> (get-articles-body)
+       (extract)
+       (->articles-entity)
+       (->articles-vec)))
+
 (defn- collect-registered-ids [returned-articles]
   {:registered-ids (map :id returned-articles)})
 
 (defn register [{:keys [article-boundary]}]
   (->> (fetch)
-       (->articles-vec)
        (boundary/store article-boundary)
        (collect-registered-ids)))
 
