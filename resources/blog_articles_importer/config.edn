@@ -5,17 +5,20 @@
   :duct.router/ataraxy
   {:routes {[:get "/ping"] [:blog-articles-importer.handler/ping]
             "/articles" ^:camelizer
-            {[:put] [:blog-articles-importer.handler/register]
+            {[:put #{company}] [:blog-articles-importer.handler/register company]
              [:get] [:blog-articles-importer.handler/get]}}
    :middleware {:camelizer #ig/ref :blog-articles-importer.middleware/camelizer}}
 
   :blog-articles-importer.handler/ping {}
-  :blog-articles-importer.handler/register {:article-boundary #ig/ref :blog-articles-importer.driver/article}
+  :blog-articles-importer.handler/register #ig/ref :blog-articles-importer/companies
   :blog-articles-importer.handler/get {:article-boundary #ig/ref :blog-articles-importer.driver/article}
   :blog-articles-importer.middleware/camelizer {}
 
+  :blog-articles-importer.usecase/uzabase {:article-boundary #ig/ref :blog-articles-importer.driver/article}
+
   :blog-articles-importer.driver/article {:a "b"}
-  }
+
+  :blog-articles-importer/companies {:uzabase #ig/ref :blog-articles-importer.usecase/uzabase}}
 
  :duct.profile/dev   #duct/include "dev"
  :duct.profile/local #duct/include "local"

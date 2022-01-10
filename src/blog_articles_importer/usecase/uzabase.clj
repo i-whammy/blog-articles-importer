@@ -1,7 +1,9 @@
 (ns blog-articles-importer.usecase.uzabase
   (:require [clj-http.client :as http]
             [net.cgrand.enlive-html :as html]
-            [blog-articles-importer.boundary.article :as boundary]))
+            [blog-articles-importer.boundary.article :as boundary]
+            [blog-articles-importer.register :refer [Register]]
+            [integrant.core :as ig]))
 
 (def ^:private base-url "https://tech.uzabase.com/feed/category/Blog")
 (def ^:private company-name "株式会社ユーザベース")
@@ -57,10 +59,18 @@
 (defn- collect-registered-ids [returned-articles]
   {:registered-ids (map :id returned-articles)})
 
-(defn register [{:keys [article-boundary]}]
+(defn register* [{:keys [article-boundary]}]
   (->> (fetch)
        (boundary/store article-boundary)
        (collect-registered-ids)))
 
 (defn get-articles [{:keys [article-boundary]}]
   (boundary/get-by article-boundary company-name))
+
+(defrecord UzabaseRegister
+  [options]
+  Register
+  (execute [options] (register* options)))
+
+(defmethod ig/init-key :blog-articles-importer.usecase/uzabase [_ options]
+  (map->UzabaseRegister options))
