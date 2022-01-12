@@ -5,5 +5,5 @@
 
 (defmethod ig/init-key :blog-articles-importer.handler/register [_ options]
   (fn [{[_ company] :ataraxy/result}]
-    (let [company-register (get options (keyword company))]
+    (let [company-register (get-in options [(keyword company) :register])]
     [::response/ok (execute company-register)])))

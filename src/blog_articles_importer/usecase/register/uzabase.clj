@@ -1,4 +1,4 @@
-(ns blog-articles-importer.usecase.uzabase
+(ns blog-articles-importer.usecase.register.uzabase
   (:require [clj-http.client :as http]
             [net.cgrand.enlive-html :as html]
             [blog-articles-importer.boundary.article :as boundary]
@@ -64,13 +64,10 @@
        (boundary/store article-boundary)
        (collect-registered-ids)))
 
-(defn get-articles [{:keys [article-boundary]}]
-  (boundary/get-by article-boundary company-name))
-
 (defrecord UzabaseRegister
   [options]
   Register
   (execute [options] (register* options)))
 
-(defmethod ig/init-key :blog-articles-importer.usecase/uzabase [_ options]
+(defmethod ig/init-key :blog-articles-importer.usecase.register/uzabase [_ options]
   (map->UzabaseRegister options))
