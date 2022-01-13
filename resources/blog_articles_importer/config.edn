@@ -20,7 +20,8 @@
   :blog-articles-importer.driver/article {:a "b"}
 
   :blog-articles-importer/companies {:uzabase {:register #ig/ref :blog-articles-importer.usecase.register/uzabase
-                                               :getter #ig/ref :blog-articles-importer.usecase.getter/uzabase}}}
+                                               :getter #ig/ref :blog-articles-importer.usecase.getter/uzabase}
+                                     :sansan {:register #ig/ref :blog-articles-importer.usecase.register/sansan}}}
 
  :duct.profile/dev   #duct/include "dev"
  :duct.profile/local #duct/include "local"
