@@ -16,6 +16,7 @@
 
   :blog-articles-importer.usecase.register/uzabase {:article-boundary #ig/ref :blog-articles-importer.driver/article}
   :blog-articles-importer.usecase.getter/uzabase {:article-boundary #ig/ref :blog-articles-importer.driver/article}
+  :blog-articles-importer.usecase.register/sansan {:article-boundary #ig/ref :blog-articles-importer.driver/article}
 
   :blog-articles-importer.driver/article {:a "b"}
 
