@@ -18,7 +18,7 @@
       (html/select #{[:item :title] [:item :link] [:item :pubDate]})))
 
 (defn- transform [tuple]
-  (map (fn [[title link pubdate]]
+  (map (fn [[title _ pubdate]]
          (let [url "TODO"]
            {:id (clojure.string/replace url #"[^0-9]" "")
             :title (first (:content title))
