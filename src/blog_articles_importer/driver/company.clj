@@ -7,8 +7,8 @@
             [next.jdbc.result-set :as rs])
   (:import com.zaxxer.hikari.HikariDataSource))
 
-(hugsql/def-sqlvec-fns "blog_articles_importer/db/sql/companies.sql")
-(declare get-companies-sqlvec)
+(hugsql/def-sqlvec-fns "blog_articles_importer/db/sql/company.sql")
+(declare get-company-sqlvec)
 
 (def ^:private spec
   {:dbtype "postgres"
@@ -20,14 +20,14 @@
 (defn- gen-connection []
   (connection/->pool HikariDataSource spec))
 
-(defn- get-by* [_ company-name]
+(defn- get-by* [_ short-name]
   (with-open [conn (gen-connection)]
-    (jdbc/execute! conn (get-companies-sqlvec {:company-name company-name}) {:builder-fn rs/as-unqualified-maps})))
+    (jdbc/execute! conn (get-company-sqlvec {:short-name short-name}) {:builder-fn rs/as-unqualified-maps})))
 
 (defrecord CompanyDriver
            [db]
   CompanyBoundary
-  (get [db short-name]
+  (get-by [db short-name]
     (get-by* db short-name)))
 
 (defmethod ig/init-key :blog-articles-importer.driver/company [_ db]

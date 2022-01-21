@@ -1,7 +1,8 @@
 (ns blog-articles-importer.usecase.register.sansan
   (:require [blog-articles-importer.register :refer [Register]]
             [integrant.core :as ig]
-            [blog-articles-importer.boundary.article :as boundary]
+            [blog-articles-importer.boundary.article :as article-boundary]
+            [blog-articles-importer.boundary.company :as company-boundary]
             [clj-http.client :as http]
             [net.cgrand.enlive-html :as html]))
 
@@ -18,14 +19,14 @@
       (html/html-resource {:parser html/xml-parser})
       (html/select #{[:item :title] [:item :link] [:item :pubDate]})))
 
-(defn- transform [company tuple]
+(defn- transform [{:keys [name short_name]} tuple]
   (map (fn [[title link pubdate]]
          (let [url (first (:content link))]
-           {:id (str company (clojure.string/replace link #"[^0-9]" ""))
+           {:id (str short_name (clojure.string/replace link #"[^0-9]" ""))
             :title (first (:content title))
             :publish-date (first (:content pubdate))
             :url url
-            :company-name company-name}))
+            :company-name name}))
        tuple))
 
 (defn- ->articles-entity [company content]
@@ -60,10 +61,12 @@
 (defn- collect-registered-ids [returned-articles]
   {:registered-ids (map :id returned-articles)})
 
-(defn register* [{:keys [article-boundary]} company]
+(defn register* [{:keys [article-boundary company-boundary]} company-short-name]
+(let [company (-> (company-boundary/get-by company-boundary company-short-name)
+                  first)]
   (->> (fetch company)
-       (boundary/store article-boundary)
-       (collect-registered-ids)))
+       (article-boundary/store article-boundary)
+       (collect-registered-ids))))
 
 (defrecord SansanRegister
   [options]
