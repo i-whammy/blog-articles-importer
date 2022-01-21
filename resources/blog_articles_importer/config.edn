@@ -15,7 +15,8 @@
   :blog-articles-importer.middleware/camelizer {}
 
   ;; register
-  :blog-articles-importer.usecase.register/uzabase {:article-boundary #ig/ref :blog-articles-importer.driver/article}
+  :blog-articles-importer.usecase.register/uzabase {:article-boundary #ig/ref :blog-articles-importer.driver/article
+                                                   :company-boundary #ig/ref :blog-articles-importer.driver/company}
   :blog-articles-importer.usecase.register/sansan {:article-boundary #ig/ref :blog-articles-importer.driver/article
                                                    :company-boundary #ig/ref :blog-articles-importer.driver/company}
   ;; getter

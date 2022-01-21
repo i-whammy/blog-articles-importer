@@ -1,17 +1,11 @@
 (ns blog-articles-importer.usecase.register.sansan
-  (:require [blog-articles-importer.register :refer [Register]]
+  (:require [blog-articles-importer.register :as register]
             [integrant.core :as ig]
             [blog-articles-importer.boundary.article :as article-boundary]
             [blog-articles-importer.boundary.company :as company-boundary]
-            [clj-http.client :as http]
             [net.cgrand.enlive-html :as html]))
 
 (def ^:private base-url "https://buildersbox.corp-sansan.com/rss")
-(def ^:private company-name "株式会社Sansan")
-
-(defn- get-articles-body []
-  (-> (http/get base-url)
-      :body))
 
 (defn- extract [body]
   (-> body
@@ -53,24 +47,21 @@
    articles))
 
 (defn- fetch [company]
-  (->> (get-articles-body)
+  (->> (register/get-articles-body base-url)
        (extract)
        (->articles-entity company)
        (->articles-vec)))
-
-(defn- collect-registered-ids [returned-articles]
-  {:registered-ids (map :id returned-articles)})
 
 (defn register* [{:keys [article-boundary company-boundary]} company-short-name]
 (let [company (-> (company-boundary/get-by company-boundary company-short-name)
                   first)]
   (->> (fetch company)
        (article-boundary/store article-boundary)
-       (collect-registered-ids))))
+       (register/collect-registered-ids))))
 
 (defrecord SansanRegister
   [options]
-  Register
+  register/Register
   (execute [options company] (register* options company)))
 
 (defmethod ig/init-key :blog-articles-importer.usecase.register/sansan [_ options]

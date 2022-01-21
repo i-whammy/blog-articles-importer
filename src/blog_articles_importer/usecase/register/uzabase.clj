@@ -1,33 +1,28 @@
 (ns blog-articles-importer.usecase.register.uzabase
-  (:require [clj-http.client :as http]
-            [net.cgrand.enlive-html :as html]
-            [blog-articles-importer.boundary.article :as boundary]
-            [blog-articles-importer.register :refer [Register]]
+  (:require [net.cgrand.enlive-html :as html]
+            [blog-articles-importer.boundary.article :as article-boundary]
+            [blog-articles-importer.boundary.company :as company-boundary]
+            [blog-articles-importer.register :as register]
             [integrant.core :as ig]))
 
 (def ^:private base-url "https://tech.uzabase.com/feed/category/Blog")
-(def ^:private company-name "株式会社ユーザベース")
-
-(defn- get-articles-body []
-  (-> (http/get base-url)
-      :body))
 
 (defn- extract [body]
   (-> body
       (html/html-snippet)
-      (html/select #{[:entry :title] [:entry :published] [:entry :link]})))
+      (html/select #{[:entry :title] [:entry :link] [:entry :published]})))
 
-(defn- transform [tuple company]
+(defn- transform [{:keys [name short-name]} tuple]
   (map (fn [[title link pubdate _]]
          (let [url (get-in link [:attrs :href])]
-           {:id (str company (clojure.string/replace url #"[^0-9]" ""))
+           {:id (str short-name (clojure.string/replace url #"[^0-9]" ""))
             :title (first (:content title))
             :publish-date (first (:content pubdate))
             :url url
-            :company-name company-name}))
+            :company-name name}))
        tuple))
 
-(defn- ->articles-entity [content company]
+(defn- ->articles-entity [company content]
   (->> (partition 4 content)
        (transform company)))
 
@@ -51,22 +46,21 @@
    articles))
 
 (defn- fetch [company]
-  (->> (get-articles-body)
+  (->> (register/get-articles-body base-url)
        (extract)
        (->articles-entity company)
        (->articles-vec)))
 
-(defn- collect-registered-ids [returned-articles]
-  {:registered-ids (map :id returned-articles)})
-
-(defn register* [{:keys [article-boundary]} company]
-  (->> (fetch company)
-       (boundary/store article-boundary)
-       (collect-registered-ids)))
+(defn register* [{:keys [article-boundary company-boundary]} company-short-name]
+  (let [company (-> (company-boundary/get-by company-boundary company-short-name)
+                    first)]
+    (->> (fetch company)
+         (article-boundary/store article-boundary)
+         (register/collect-registered-ids))))
 
 (defrecord UzabaseRegister
   [options]
-  Register
+  register/Register
   (execute [options company] (register* options company)))
 
 (defmethod ig/init-key :blog-articles-importer.usecase.register/uzabase [_ options]
