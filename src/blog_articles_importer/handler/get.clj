@@ -6,4 +6,6 @@
 (defmethod ig/init-key :blog-articles-importer.handler/get [_ options]
   (fn [{[_ company] :ataraxy/result}]
     (let [company-getter (get-in options [(keyword company) :getter])]
-     [::response/ok (execute company-getter)])))
+      (if (nil? company-getter)
+        [::response/not-found "No getter found."]
+        [::response/ok (execute company-getter)]))))
