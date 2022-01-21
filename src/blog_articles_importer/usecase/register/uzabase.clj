@@ -17,19 +17,19 @@
       (html/html-snippet)
       (html/select #{[:entry :title] [:entry :published] [:entry :link]})))
 
-(defn- transform [tuple]
+(defn- transform [tuple company]
   (map (fn [[title link pubdate _]]
          (let [url (get-in link [:attrs :href])]
-           {:id (str "uzabase" (clojure.string/replace url #"[^0-9]" ""))
+           {:id (str company (clojure.string/replace url #"[^0-9]" ""))
             :title (first (:content title))
             :publish-date (first (:content pubdate))
             :url url
             :company-name company-name}))
        tuple))
 
-(defn- ->articles-entity [content]
+(defn- ->articles-entity [content company]
   (->> (partition 4 content)
-       (transform)))
+       (transform company)))
 
 (defn- ->iso-publish-date [publish-date]
   (.format (java.time.OffsetDateTime/parse publish-date)
@@ -50,24 +50,24 @@
    []
    articles))
 
-(defn- fetch []
+(defn- fetch [company]
   (->> (get-articles-body)
        (extract)
-       (->articles-entity)
+       (->articles-entity company)
        (->articles-vec)))
 
 (defn- collect-registered-ids [returned-articles]
   {:registered-ids (map :id returned-articles)})
 
-(defn register* [{:keys [article-boundary]}]
-  (->> (fetch)
+(defn register* [{:keys [article-boundary]} company]
+  (->> (fetch company)
        (boundary/store article-boundary)
        (collect-registered-ids)))
 
 (defrecord UzabaseRegister
   [options]
   Register
-  (execute [options] (register* options)))
+  (execute [options company] (register* options company)))
 
 (defmethod ig/init-key :blog-articles-importer.usecase.register/uzabase [_ options]
   (map->UzabaseRegister options))

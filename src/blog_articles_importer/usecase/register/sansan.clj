@@ -18,19 +18,19 @@
       (html/html-resource {:parser html/xml-parser})
       (html/select #{[:item :title] [:item :link] [:item :pubDate]})))
 
-(defn- transform [tuple]
+(defn- transform [company tuple]
   (map (fn [[title link pubdate]]
          (let [url (first (:content link))]
-           {:id (str "sansan" (clojure.string/replace link #"[^0-9]" ""))
+           {:id (str company (clojure.string/replace link #"[^0-9]" ""))
             :title (first (:content title))
             :publish-date (first (:content pubdate))
             :url url
             :company-name company-name}))
        tuple))
 
-(defn- ->articles-entity [content]
+(defn- ->articles-entity [company content]
   (->> (partition 3 content)
-       (transform)))
+       (transform company)))
 
 (defn- ->iso-publish-date [publish-date]
   (.format (java.time.OffsetDateTime/parse publish-date (java.time.format.DateTimeFormatter/RFC_1123_DATE_TIME))
@@ -51,24 +51,24 @@
    []
    articles))
 
-(defn- fetch []
+(defn- fetch [company]
   (->> (get-articles-body)
        (extract)
-       (->articles-entity)
+       (->articles-entity company)
        (->articles-vec)))
 
 (defn- collect-registered-ids [returned-articles]
   {:registered-ids (map :id returned-articles)})
 
-(defn register* [{:keys [article-boundary]}]
-  (->> (fetch)
+(defn register* [{:keys [article-boundary]} company]
+  (->> (fetch company)
        (boundary/store article-boundary)
        (collect-registered-ids)))
 
 (defrecord SansanRegister
   [options]
   Register
-  (execute [options] (register* options)))
+  (execute [options company] (register* options company)))
 
 (defmethod ig/init-key :blog-articles-importer.usecase.register/sansan [_ options]
   (map->SansanRegister options))

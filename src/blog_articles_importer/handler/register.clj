@@ -7,5 +7,5 @@
   (fn [{[_ company] :ataraxy/result}]
     (let [company-register (get-in options [(keyword company) :register])]
       (if (nil? company-register)
-        [::response/internal-server-error "No register found."]
-        [::response/ok (execute company-register)]))))
+        [::response/not-found "No register found."]
+        [::response/ok (execute company-register company)]))))

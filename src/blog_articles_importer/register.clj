@@ -2,7 +2,7 @@
   (:require [integrant.core :as ig]))
 
 (defprotocol Register
-  (execute [self]))
+  (execute [self company]))
 
 (defmethod ig/init-key :blog-articles-importer/companies [_ companies]
   companies)
