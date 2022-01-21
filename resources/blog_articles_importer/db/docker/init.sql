@@ -6,7 +6,7 @@ CREATE TABLE blog.article (
     title text,
     publish_date text,
     url text,
-    company_id text
+    company_id INTEGER
 );
 CREATE TABLE blog.company (
     id INTEGER PRIMARY KEY,

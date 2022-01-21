@@ -16,20 +16,20 @@
 
   ;; register
   :blog-articles-importer.usecase.register/uzabase {:article-boundary #ig/ref :blog-articles-importer.driver/article
-                                                   :company-boundary #ig/ref :blog-articles-importer.driver/company}
+                                                    :company-boundary #ig/ref :blog-articles-importer.driver/company}
   :blog-articles-importer.usecase.register/sansan {:article-boundary #ig/ref :blog-articles-importer.driver/article
                                                    :company-boundary #ig/ref :blog-articles-importer.driver/company}
   ;; getter
-  :blog-articles-importer.usecase.getter/uzabase {:article-boundary #ig/ref :blog-articles-importer.driver/article}
-  :blog-articles-importer.usecase.getter/sansan {:article-boundary #ig/ref :blog-articles-importer.driver/article}
+  :blog-articles-importer.usecase/get {:article-boundary #ig/ref :blog-articles-importer.driver/article
+                                       :company-boundary #ig/ref :blog-articles-importer.driver/company}
 
   :blog-articles-importer.driver/article {:a "b"}
   :blog-articles-importer.driver/company {:a "b"}
 
   :blog-articles-importer/companies {:uzabase {:register #ig/ref :blog-articles-importer.usecase.register/uzabase
-                                               :getter #ig/ref :blog-articles-importer.usecase.getter/uzabase}
+                                               :getter #ig/ref :blog-articles-importer.usecase/get}
                                      :sansan {:register #ig/ref :blog-articles-importer.usecase.register/sansan
-                                              :getter #ig/ref :blog-articles-importer.usecase.getter/sansan}}}
+                                              :getter #ig/ref :blog-articles-importer.usecase/get}}}
 
  :duct.profile/dev   #duct/include "dev"
  :duct.profile/local #duct/include "local"

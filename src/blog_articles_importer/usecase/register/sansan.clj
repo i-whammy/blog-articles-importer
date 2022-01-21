@@ -13,14 +13,14 @@
       (html/html-resource {:parser html/xml-parser})
       (html/select #{[:item :title] [:item :link] [:item :pubDate]})))
 
-(defn- transform [{:keys [name short_name]} tuple]
+(defn- transform [{:keys [id short-name]} tuple]
   (map (fn [[title link pubdate]]
          (let [url (first (:content link))]
-           {:id (str short_name (clojure.string/replace link #"[^0-9]" ""))
+           {:id (str short-name (clojure.string/replace link #"[^0-9]" ""))
             :title (first (:content title))
             :publish-date (first (:content pubdate))
             :url url
-            :company-name name}))
+            :company-id id}))
        tuple))
 
 (defn- ->articles-entity [company content]
@@ -31,13 +31,13 @@
   (.format (java.time.OffsetDateTime/parse publish-date (java.time.format.DateTimeFormatter/RFC_1123_DATE_TIME))
            (java.time.format.DateTimeFormatter/ISO_LOCAL_DATE)))
 
-(defn- ->article-vec [{:keys [id title publish-date url company-name]}]
+(defn- ->article-vec [{:keys [id title publish-date url company-id]}]
   (conj []
         id
         title
         (->iso-publish-date publish-date)
         url
-        company-name))
+        company-id))
 
 (defn- ->articles-vec [articles]
   (reduce
@@ -57,7 +57,8 @@
                   first)]
   (->> (fetch company)
        (article-boundary/store article-boundary)
-       (register/collect-registered-ids))))
+       (register/collect-registered-ids))
+  ))
 
 (defrecord SansanRegister
   [options]

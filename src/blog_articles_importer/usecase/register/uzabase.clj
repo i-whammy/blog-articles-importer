@@ -12,14 +12,14 @@
       (html/html-snippet)
       (html/select #{[:entry :title] [:entry :link] [:entry :published]})))
 
-(defn- transform [{:keys [name short-name]} tuple]
+(defn- transform [{:keys [id short-name]} tuple]
   (map (fn [[title link pubdate _]]
          (let [url (get-in link [:attrs :href])]
            {:id (str short-name (clojure.string/replace url #"[^0-9]" ""))
             :title (first (:content title))
             :publish-date (first (:content pubdate))
             :url url
-            :company-name name}))
+            :company-id id}))
        tuple))
 
 (defn- ->articles-entity [company content]
@@ -30,13 +30,13 @@
   (.format (java.time.OffsetDateTime/parse publish-date)
            (java.time.format.DateTimeFormatter/ISO_LOCAL_DATE)))
 
-(defn- ->article-vec [{:keys [id title publish-date url company-name]}]
+(defn- ->article-vec [{:keys [id title publish-date url company-id]}]
   (conj []
         id
         title
         (->iso-publish-date publish-date)
         url
-        company-name))
+        company-id))
 
 (defn- ->articles-vec [articles]
   (reduce

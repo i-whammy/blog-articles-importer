@@ -26,17 +26,17 @@
     (jdbc/execute! conn (store-articles-sqlvec {:articles articles})
                    {:return-keys true :builder-fn rs/as-unqualified-maps})))
 
-(defn- get-by* [_ company-name]
+(defn- get-by* [_ company-short-name]
   (with-open [conn (gen-connection)]
-    (jdbc/execute! conn (get-articles-sqlvec {:company-name company-name}) {:builder-fn rs/as-unqualified-maps})))
+    (jdbc/execute! conn (get-articles-sqlvec {:short-name company-short-name}) {:builder-fn rs/as-unqualified-maps})))
 
 (defrecord ArticleDriver
            [db]
   ArticleBoundary
   (store [db articles]
     (store* db articles))
-  (get-by [db company-name]
-    (get-by* db company-name)))
+  (get-by [db company-short-name]
+    (get-by* db company-short-name)))
 
 (defmethod ig/init-key :blog-articles-importer.driver/article [_ db]
   (map->ArticleDriver db))

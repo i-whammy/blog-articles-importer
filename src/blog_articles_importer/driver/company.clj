@@ -22,7 +22,7 @@
 
 (defn- get-by* [_ short-name]
   (with-open [conn (gen-connection)]
-    (jdbc/execute! conn (get-company-sqlvec {:short-name short-name}) {:builder-fn rs/as-unqualified-maps})))
+    (jdbc/execute! conn (get-company-sqlvec {:short-name short-name}) {:builder-fn rs/as-unqualified-kebab-maps})))
 
 (defrecord CompanyDriver
            [db]
