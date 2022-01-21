@@ -14,15 +14,19 @@
   :blog-articles-importer.handler/get #ig/ref :blog-articles-importer/companies
   :blog-articles-importer.middleware/camelizer {}
 
+  ;; register
   :blog-articles-importer.usecase.register/uzabase {:article-boundary #ig/ref :blog-articles-importer.driver/article}
-  :blog-articles-importer.usecase.getter/uzabase {:article-boundary #ig/ref :blog-articles-importer.driver/article}
   :blog-articles-importer.usecase.register/sansan {:article-boundary #ig/ref :blog-articles-importer.driver/article}
+  ;; getter
+  :blog-articles-importer.usecase.getter/uzabase {:article-boundary #ig/ref :blog-articles-importer.driver/article}
+  :blog-articles-importer.usecase.getter/sansan {:article-boundary #ig/ref :blog-articles-importer.driver/article}
 
   :blog-articles-importer.driver/article {:a "b"}
 
   :blog-articles-importer/companies {:uzabase {:register #ig/ref :blog-articles-importer.usecase.register/uzabase
                                                :getter #ig/ref :blog-articles-importer.usecase.getter/uzabase}
-                                     :sansan {:register #ig/ref :blog-articles-importer.usecase.register/sansan}}}
+                                     :sansan {:register #ig/ref :blog-articles-importer.usecase.register/sansan
+                                              :getter #ig/ref :blog-articles-importer.usecase.getter/sansan}}}
 
  :duct.profile/dev   #duct/include "dev"
  :duct.profile/local #duct/include "local"
