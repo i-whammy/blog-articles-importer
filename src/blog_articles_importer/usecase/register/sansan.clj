@@ -14,13 +14,14 @@
 
 (defn- extract [body]
   (-> body
-      (html/html-snippet)
+      (java.io.StringReader.)
+      (html/html-resource {:parser html/xml-parser})
       (html/select #{[:item :title] [:item :link] [:item :pubDate]})))
 
 (defn- transform [tuple]
-  (map (fn [[title _ pubdate]]
-         (let [url "TODO"]
-           {:id (clojure.string/replace url #"[^0-9]" "")
+  (map (fn [[title link pubdate]]
+         (let [url (first (:content link))]
+           {:id (clojure.string/replace link #"[^0-9]" "")
             :title (first (:content title))
             :publish-date (first (:content pubdate))
             :url url
