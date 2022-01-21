@@ -4,7 +4,7 @@ VALUES :tuple*:articles
 ON CONFLICT DO NOTHING;
 
 -- :name get-articles :? :*
-SELECT a.* FROM blog.article a
+SELECT a.id, a.title, a.publish_date, a.url, c.name FROM blog.article a
 INNER JOIN blog.company c
 ON a.company_id = c.id
 WHERE c.short_name = :short-name

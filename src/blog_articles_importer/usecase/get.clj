@@ -5,8 +5,9 @@
             [blog-articles-importer.boundary.company :as company-boundary]))
 
 (defn get-articles [{:keys [article-boundary company-boundary]} company-short-name]
-  (let [company (first (company-boundary/get-by company-boundary company-short-name))]
-    (article-boundary/get-by article-boundary (:short-name company))))
+  (let [company (first (company-boundary/get-by company-boundary company-short-name))
+        articles (article-boundary/get-by article-boundary (:short-name company))]
+    (map #(clojure.set/rename-keys % {:name :company-name}) articles)))
 
 (defrecord UzabaseGetter [options]
   Getter
