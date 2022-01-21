@@ -20,7 +20,7 @@
 (defn- transform [tuple]
   (map (fn [[title link pubdate _]]
          (let [url (get-in link [:attrs :href])]
-           {:id (clojure.string/replace url #"[^0-9]" "")
+           {:id (str "uzabase" (clojure.string/replace url #"[^0-9]" ""))
             :title (first (:content title))
             :publish-date (first (:content pubdate))
             :url url

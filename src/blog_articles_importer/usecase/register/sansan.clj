@@ -21,7 +21,7 @@
 (defn- transform [tuple]
   (map (fn [[title link pubdate]]
          (let [url (first (:content link))]
-           {:id (clojure.string/replace link #"[^0-9]" "")
+           {:id (str "sansan" (clojure.string/replace link #"[^0-9]" ""))
             :title (first (:content title))
             :publish-date (first (:content pubdate))
             :url url
