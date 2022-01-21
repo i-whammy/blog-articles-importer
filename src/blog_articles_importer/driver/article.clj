@@ -7,7 +7,7 @@
             [next.jdbc.result-set :as rs])
   (:import com.zaxxer.hikari.HikariDataSource))
 
-(hugsql/def-sqlvec-fns "blog_articles_importer/db/sql/articles.sql")
+(hugsql/def-sqlvec-fns "blog_articles_importer/db/sql/article.sql")
 (declare store-articles-sqlvec)
 (declare get-articles-sqlvec)
 
