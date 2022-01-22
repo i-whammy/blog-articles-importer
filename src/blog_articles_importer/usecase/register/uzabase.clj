@@ -26,15 +26,11 @@
   (->> (partition 4 content)
        (transform company)))
 
-(defn- ->iso-publish-date [publish-date]
-  (.format (java.time.OffsetDateTime/parse publish-date)
-           (java.time.format.DateTimeFormatter/ISO_LOCAL_DATE)))
-
 (defn- ->article-vec [{:keys [id title publish-date url company-id]}]
   (conj []
         id
         title
-        (->iso-publish-date publish-date)
+        (register/->iso-local-date publish-date)
         url
         company-id))
 

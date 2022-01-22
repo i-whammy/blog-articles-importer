@@ -27,15 +27,11 @@
   (->> (partition 3 content)
        (transform company)))
 
-(defn- ->iso-publish-date [publish-date]
-  (.format (java.time.OffsetDateTime/parse publish-date (java.time.format.DateTimeFormatter/RFC_1123_DATE_TIME))
-           (java.time.format.DateTimeFormatter/ISO_LOCAL_DATE)))
-
 (defn- ->article-vec [{:keys [id title publish-date url company-id]}]
   (conj []
         id
         title
-        (->iso-publish-date publish-date)
+        (register/->iso-local-date publish-date (java.time.format.DateTimeFormatter/RFC_1123_DATE_TIME))
         url
         company-id))
 
@@ -57,8 +53,7 @@
                   first)]
   (->> (fetch company)
        (article-boundary/store article-boundary)
-       (register/collect-registered-ids))
-  ))
+       (register/collect-registered-ids))))
 
 (defrecord SansanRegister
   [options]
