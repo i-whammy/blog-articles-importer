@@ -6,14 +6,10 @@
   (-> (http/get base-url)
       :body))
 
-;; [{:id "a"} {:id "b"}]
-;; {:registered-ids ("a" "b")}
 (defn collect-registered-ids [returned-articles]
   {:registered-ids (map :id returned-articles)})
 
 (defn ->iso-local-date
-  ([publish-date]
-   (->iso-local-date publish-date (java.time.format.DateTimeFormatter/ISO_OFFSET_DATE_TIME)))
   ([publish-date original-format]
    (.format (java.time.OffsetDateTime/parse publish-date original-format)
             (java.time.format.DateTimeFormatter/ISO_LOCAL_DATE))))

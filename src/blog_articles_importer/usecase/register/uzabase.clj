@@ -30,7 +30,7 @@
   (conj []
         id
         title
-        (register/->iso-local-date publish-date)
+        (register/->iso-local-date publish-date (java.time.format.DateTimeFormatter/ISO_OFFSET_DATE_TIME))
         url
         company-id))
 
