@@ -1,10 +1,18 @@
 (ns blog-articles-importer.register
   (:require [integrant.core :as ig]
-            [clj-http.client :as http]))
+            [clj-http.client :as http]
+            [net.cgrand.enlive-html :as html]))
 
-(defn get-articles-body [base-url]
+(defn- get-articles-body [base-url]
   (-> (http/get base-url)
       :body))
+
+(defn extract [base-url tags-set]
+  (-> (get-articles-body base-url)
+      (java.io.StringReader.)
+      (java.io.BufferedReader.)
+      (html/html-resource {:parser html/xml-parser})
+      (html/select tags-set)))
 
 (defn collect-registered-ids [returned-articles]
   {:registered-ids (map :id returned-articles)})

@@ -2,16 +2,9 @@
   (:require [blog-articles-importer.register :as register]
             [integrant.core :as ig]
             [blog-articles-importer.boundary.article :as article-boundary]
-            [blog-articles-importer.boundary.company :as company-boundary]
-            [net.cgrand.enlive-html :as html]))
+            [blog-articles-importer.boundary.company :as company-boundary]))
 
 (def ^:private base-url "https://buildersbox.corp-sansan.com/rss")
-
-(defn- extract [body]
-  (-> body
-      (java.io.StringReader.)
-      (html/html-resource {:parser html/xml-parser})
-      (html/select #{[:item :title] [:item :link] [:item :pubDate]})))
 
 (defn- transform [{:keys [id short-name]} tuple]
   (map (fn [[title link pubdate]]
@@ -43,8 +36,7 @@
    articles))
 
 (defn- fetch [company]
-  (->> (register/get-articles-body base-url)
-       (extract)
+  (->> (register/extract base-url #{[:item :title] [:item :link] [:item :pubDate]})
        (->articles-entity company)
        (->articles-vec)))
 

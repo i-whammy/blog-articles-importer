@@ -1,16 +1,10 @@
 (ns blog-articles-importer.usecase.register.uzabase
-  (:require [net.cgrand.enlive-html :as html]
-            [blog-articles-importer.boundary.article :as article-boundary]
+  (:require [blog-articles-importer.boundary.article :as article-boundary]
             [blog-articles-importer.boundary.company :as company-boundary]
             [blog-articles-importer.register :as register]
             [integrant.core :as ig]))
 
 (def ^:private base-url "https://tech.uzabase.com/feed/category/Blog")
-
-(defn- extract [body]
-  (-> body
-      (html/html-snippet)
-      (html/select #{[:entry :title] [:entry :link] [:entry :published]})))
 
 (defn- transform [{:keys [id short-name]} tuple]
   (map (fn [[title link pubdate _]]
@@ -42,8 +36,7 @@
    articles))
 
 (defn- fetch [company]
-  (->> (register/get-articles-body base-url)
-       (extract)
+  (->> (register/extract base-url #{[:entry :title] [:entry :link] [:entry :published]})
        (->articles-entity company)
        (->articles-vec)))
 
