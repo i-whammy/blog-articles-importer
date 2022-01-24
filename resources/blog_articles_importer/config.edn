@@ -19,6 +19,8 @@
                                                     :company-boundary #ig/ref :blog-articles-importer.driver/company}
   :blog-articles-importer.usecase.register/sansan {:article-boundary #ig/ref :blog-articles-importer.driver/article
                                                    :company-boundary #ig/ref :blog-articles-importer.driver/company}
+  :blog-articles-importer.usecase.register/m3 {:article-boundary #ig/ref :blog-articles-importer.driver/article
+                                               :company-boundary #ig/ref :blog-articles-importer.driver/company}
   ;; getter
   :blog-articles-importer.usecase/get {:article-boundary #ig/ref :blog-articles-importer.driver/article
                                        :company-boundary #ig/ref :blog-articles-importer.driver/company}
@@ -29,7 +31,9 @@
   :blog-articles-importer/companies {:uzabase {:register #ig/ref :blog-articles-importer.usecase.register/uzabase
                                                :getter #ig/ref :blog-articles-importer.usecase/get}
                                      :sansan {:register #ig/ref :blog-articles-importer.usecase.register/sansan
-                                              :getter #ig/ref :blog-articles-importer.usecase/get}}}
+                                              :getter #ig/ref :blog-articles-importer.usecase/get}
+                                     :m3 {:register #ig/ref :blog-articles-importer.usecase.register/m3
+                                          :getter #ig/ref :blog-articles-importer.usecase/get}}}
 
  :duct.profile/dev   #duct/include "dev"
  :duct.profile/local #duct/include "local"

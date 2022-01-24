@@ -15,4 +15,5 @@ CREATE TABLE blog.company (
 );
 INSERT INTO blog.company VALUES
 (1, '株式会社ユーザベース', 'uzabase'),
-(2, '株式会社Sansan', 'sansan');
+(2, 'Sansan株式会社', 'sansan'),
+(3, 'エムスリー株式会社', 'm3');
