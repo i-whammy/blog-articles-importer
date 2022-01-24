@@ -20,25 +20,12 @@
   (->> (partition 4 content)
        (transform company)))
 
-(defn- ->article-vec [{:keys [id title publish-date url company-id]}]
-  (conj []
-        id
-        title
-        (register/->iso-local-date publish-date (java.time.format.DateTimeFormatter/ISO_OFFSET_DATE_TIME))
-        url
-        company-id))
-
-(defn- ->articles-vec [articles]
-  (reduce
-   (fn [acc article]
-     (conj acc (->article-vec article)))
-   []
-   articles))
-
 (defn- fetch [company]
-  (->> (register/extract base-url #{[:entry :title] [:entry :link] [:entry :published]})
-       (->articles-entity company)
-       (->articles-vec)))
+  (let [articles-entity (->> (register/extract base-url #{[:entry :title] [:entry :link] [:entry :published]})
+                             (->articles-entity company))]
+    (register/->articles-vec
+     articles-entity
+     (java.time.format.DateTimeFormatter/ISO_OFFSET_DATE_TIME))))
 
 (defn register* [{:keys [article-boundary company-boundary]} company-short-name]
   (let [company (-> (company-boundary/get-by company-boundary company-short-name)
@@ -48,7 +35,7 @@
          (register/collect-registered-ids))))
 
 (defrecord UzabaseRegister
-  [options]
+           [options]
   register/Register
   (execute [options company] (register* options company)))
 

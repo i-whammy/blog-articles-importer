@@ -26,6 +26,22 @@
   [url short-name]
   (str short-name (clojure.string/replace url #"[^0-9]" "")))
 
+(defn- ->article-vec [{:keys [id title publish-date url company-id]}]
+  (conj []
+        id
+        title
+        publish-date
+        url
+        company-id))
+
+(defn ->articles-vec [articles formatter]
+  (reduce
+   (fn [acc article]
+     (let [date-formatted-article (update article :publish-date #(->iso-local-date % formatter))]
+       (conj acc (->article-vec date-formatted-article))))
+   []
+   articles))
+
 (defprotocol Register
   (execute [self company]))
 
