@@ -1,4 +1,4 @@
-(ns blog-articles-importer.register
+(ns blog-articles-importer.register-test
   (:require [clojure.test :as t]
             [blog-articles-importer.register :as sut]))
 
@@ -13,3 +13,8 @@
                       (t/is (= "2022-01-22"
                                (sut/->iso-local-date "Sat, 22 Jan 2022 09:00:00 +0900"
                                                      (java.time.format.DateTimeFormatter/RFC_1123_DATE_TIME))))))
+
+(t/deftest ->article-id
+           (t/testing "generate article id with article url and company short name"
+                      (t/is (= "uzabase20220121"
+                               (sut/->article-id "https://tech.uzabase.com/entry/2022/01/21" "uzabase")))))

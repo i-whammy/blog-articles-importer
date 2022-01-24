@@ -15,7 +15,7 @@
 (defn- transform [{:keys [id short-name]} tuple]
   (map (fn [[title link pubdate _]]
          (let [url (get-in link [:attrs :href])]
-           {:id (str short-name (clojure.string/replace url #"[^0-9]" ""))
+           {:id (register/->article-id url short-name)
             :title (first (:content title))
             :publish-date (first (:content pubdate))
             :url url
