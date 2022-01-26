@@ -11,7 +11,8 @@
 
   :blog-articles-importer.handler/ping {}
   :blog-articles-importer.handler/register #ig/ref :blog-articles-importer/companies
-  :blog-articles-importer.handler/get #ig/ref :blog-articles-importer/companies
+  :blog-articles-importer.handler/get {:companies #ig/ref :blog-articles-importer/companies
+                                       :get #ig/ref :blog-articles-importer.usecase/get}
   :blog-articles-importer.middleware/camelizer {}
 
   ;; register
@@ -32,16 +33,11 @@
   :blog-articles-importer.driver/article {:a "b"}
   :blog-articles-importer.driver/company {:a "b"}
 
-  :blog-articles-importer/companies {:uzabase {:register #ig/ref :blog-articles-importer.usecase.register/uzabase
-                                               :getter #ig/ref :blog-articles-importer.usecase/get}
-                                     :sansan {:register #ig/ref :blog-articles-importer.usecase.register/sansan
-                                              :getter #ig/ref :blog-articles-importer.usecase/get}
-                                     :m3 {:register #ig/ref :blog-articles-importer.usecase.register/m3
-                                          :getter #ig/ref :blog-articles-importer.usecase/get}
-                                     :mercari {:register #ig/ref :blog-articles-importer.usecase.register/mercari
-                                               :getter #ig/ref :blog-articles-importer.usecase/get}
-                                     :line {:register #ig/ref :blog-articles-importer.usecase.register/line
-                                            :getter #ig/ref :blog-articles-importer.usecase/get}}}
+  :blog-articles-importer/companies {:uzabase #ig/ref :blog-articles-importer.usecase.register/uzabase
+                                     :sansan #ig/ref :blog-articles-importer.usecase.register/sansan
+                                     :m3 #ig/ref :blog-articles-importer.usecase.register/m3
+                                     :mercari #ig/ref :blog-articles-importer.usecase.register/mercari
+                                     :line #ig/ref :blog-articles-importer.usecase.register/line}}
 
  :duct.profile/dev   #duct/include "dev"
  :duct.profile/local #duct/include "local"
