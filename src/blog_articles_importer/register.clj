@@ -22,10 +22,6 @@
   (.format (java.time.OffsetDateTime/parse publish-date original-format)
            (java.time.format.DateTimeFormatter/ISO_LOCAL_DATE)))
 
-(defn ->article-id
-  [url short-name]
-  (str short-name (clojure.string/replace url #"[^0-9]" "")))
-
 (defn- ->article-vec [{:keys [id title publish-date url company-id]}]
   (conj []
         id

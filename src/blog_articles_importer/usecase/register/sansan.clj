@@ -13,11 +13,11 @@
 
 (defn- fetch [company]
   (let [tags (register/extract base-url #{[:item :title] [:item :link] [:item :pubDate]})
-        article-entity (register/->articles-entity {:tags tags
+        articles-entity (register/->articles-entity {:tags tags
                                                     :partition-number 3
                                                     :fns fns
                                                     :company company})]
-    (register/->articles-vec article-entity (java.time.format.DateTimeFormatter/RFC_1123_DATE_TIME))))
+    (register/->articles-vec articles-entity (java.time.format.DateTimeFormatter/RFC_1123_DATE_TIME))))
 
 (defn register* [{:keys [article-boundary company-boundary]} company-short-name]
   (let [company (-> (company-boundary/get-by company-boundary company-short-name)

@@ -6,23 +6,17 @@
 
 (def ^:private base-url "https://tech.uzabase.com/feed/category/Blog")
 
-(defn- transform [{:keys [id short-name]} tuple]
-  (map (fn [[title link pubdate _]]
-         (let [url (get-in link [:attrs :href])]
-           {:id (register/->article-id url short-name)
-            :title (first (:content title))
-            :publish-date (first (:content pubdate))
-            :url url
-            :company-id id}))
-       tuple))
-
-(defn- ->articles-entity [company content]
-  (->> (partition 4 content)
-       (transform company)))
+(def ^:private fns {:id-fn (fn [url short-name] (str short-name (clojure.string/replace url #"[^0-9]" "")))
+                    :url-fn (fn [link] (get-in link [:attrs :href]))
+                    :title-fn (fn [title] (first (:content title)))
+                    :publish-date-fn (fn [publish-date] (first (:content publish-date)))})
 
 (defn- fetch [company]
-  (let [articles-entity (->> (register/extract base-url #{[:entry :title] [:entry :link] [:entry :published]})
-                             (->articles-entity company))]
+  (let [tags (register/extract base-url #{[:entry :title] [:entry :link] [:entry :published]})
+        articles-entity (register/->articles-entity {:tags tags
+                                                     :partition-number 4
+                                                     :fns fns
+                                                     :company company})]
     (register/->articles-vec
      articles-entity
      (java.time.format.DateTimeFormatter/ISO_OFFSET_DATE_TIME))))
