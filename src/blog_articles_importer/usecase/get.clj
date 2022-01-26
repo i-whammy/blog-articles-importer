@@ -2,12 +2,13 @@
   (:require [blog-articles-importer.getter :refer [Getter]]
             [blog-articles-importer.boundary.article :as article-boundary]
             [integrant.core :as ig]
-            [blog-articles-importer.boundary.company :as company-boundary]))
+            [blog-articles-importer.boundary.company :as company-boundary]
+            [clojure.set :as set]))
 
 (defn get-articles [{:keys [article-boundary company-boundary]} company-short-name]
   (let [company (first (company-boundary/get-by company-boundary company-short-name))
         articles (article-boundary/get-by article-boundary (:short-name company))]
-    (map #(clojure.set/rename-keys % {:name :company-name}) articles)))
+    (map #(set/rename-keys % {:name :company-name}) articles)))
 
 (defrecord UzabaseGetter [options]
   Getter

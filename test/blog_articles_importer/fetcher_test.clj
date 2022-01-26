@@ -1,6 +1,6 @@
-(ns blog-articles-importer.register-test
+(ns blog-articles-importer.fetcher-test
   (:require [clojure.test :as t]
-            [blog-articles-importer.register :as sut]))
+            [blog-articles-importer.fetcher :as sut]))
 
 (t/deftest collect-registered-ids
            (t/testing "return a collection of ids with registered-ids key"
