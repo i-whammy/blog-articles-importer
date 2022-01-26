@@ -23,6 +23,8 @@
                                                :company-boundary #ig/ref :blog-articles-importer.driver/company}
   :blog-articles-importer.usecase.register/mercari {:article-boundary #ig/ref :blog-articles-importer.driver/article
                                                     :company-boundary #ig/ref :blog-articles-importer.driver/company}
+  :blog-articles-importer.usecase.register/line {:article-boundary #ig/ref :blog-articles-importer.driver/article
+                                                 :company-boundary #ig/ref :blog-articles-importer.driver/company}
   ;; getter
   :blog-articles-importer.usecase/get {:article-boundary #ig/ref :blog-articles-importer.driver/article
                                        :company-boundary #ig/ref :blog-articles-importer.driver/company}
@@ -37,7 +39,9 @@
                                      :m3 {:register #ig/ref :blog-articles-importer.usecase.register/m3
                                           :getter #ig/ref :blog-articles-importer.usecase/get}
                                      :mercari {:register #ig/ref :blog-articles-importer.usecase.register/mercari
-                                               :getter #ig/ref :blog-articles-importer.usecase/get}}}
+                                               :getter #ig/ref :blog-articles-importer.usecase/get}
+                                     :line {:register #ig/ref :blog-articles-importer.usecase.register/line
+                                            :getter #ig/ref :blog-articles-importer.usecase/get}}}
 
  :duct.profile/dev   #duct/include "dev"
  :duct.profile/local #duct/include "local"

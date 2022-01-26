@@ -17,4 +17,5 @@ INSERT INTO blog.company VALUES
 (1, '株式会社ユーザベース', 'uzabase'),
 (2, 'Sansan株式会社', 'sansan'),
 (3, 'エムスリー株式会社', 'm3'),
-(4, '株式会社メルカリ', 'mercari');
+(4, '株式会社メルカリ', 'mercari'),
+(5, '株式会社LINE', 'line');
