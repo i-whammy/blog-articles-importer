@@ -10,6 +10,7 @@
                     first)
         fetcher (get companies (keyword company-short-name))]
     (->> (fetcher/execute fetcher company)
+         (register/->articles-vec)
          (article-boundary/store article-boundary)
          (fetcher/collect-registered-ids))))
 

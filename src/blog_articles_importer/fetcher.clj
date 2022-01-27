@@ -22,22 +22,6 @@
   (.format (java.time.OffsetDateTime/parse publish-date original-format)
            (java.time.format.DateTimeFormatter/ISO_LOCAL_DATE)))
 
-(defn- ->article-vec [{:keys [id title publish-date url company-id]}]
-  (conj []
-        id
-        title
-        publish-date
-        url
-        company-id))
-
-(defn ->articles-vec [articles formatter]
-  (reduce
-   (fn [acc article]
-     (let [date-formatted-article (update article :publish-date #(->iso-local-date % formatter))]
-       (conj acc (->article-vec date-formatted-article))))
-   []
-   articles))
-
 (defn- transform [tuple
                   ;; fns
                   {:keys [id-fn

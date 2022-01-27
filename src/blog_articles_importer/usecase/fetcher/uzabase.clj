@@ -8,17 +8,16 @@
 (def ^:private fns {:id-fn (fn [url short-name] (str short-name (s/replace url #"[^0-9]" "")))
                     :url-fn (fn [link] (get-in link [:attrs :href]))
                     :title-fn (fn [title] (first (:content title)))
-                    :publish-date-fn (fn [publish-date] (first (:content publish-date)))})
+                    :publish-date-fn (fn [publish-date] (-> (:content publish-date)
+                                                            (first)
+                                                            (fetcher/->iso-local-date (java.time.format.DateTimeFormatter/ISO_OFFSET_DATE_TIME))))})
 
 (defn- fetch* [company]
-  (let [tags (fetcher/extract base-url #{[:entry :title] [:entry :link] [:entry :published]})
-        articles-entity (fetcher/->articles-entity {:tags tags
-                                                     :partition-number 4
-                                                     :fns fns
-                                                     :company company})]
-    (fetcher/->articles-vec
-     articles-entity
-     (java.time.format.DateTimeFormatter/ISO_OFFSET_DATE_TIME))))
+  (let [tags (fetcher/extract base-url #{[:entry :title] [:entry :link] [:entry :published]})]
+    (fetcher/->articles-entity {:tags tags
+                                :partition-number 4
+                                :fns fns
+                                :company company})))
 
 (defrecord UzabaseFetcher
            [options]
