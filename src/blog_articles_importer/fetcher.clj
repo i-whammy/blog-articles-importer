@@ -1,6 +1,7 @@
 (ns blog-articles-importer.fetcher
   (:require [clj-http.client :as http]
-            [net.cgrand.enlive-html :as html]))
+            [net.cgrand.enlive-html :as html]
+            [clojure.spec.alpha :as s]))
 
 
 (defn- get-articles-body [base-url]
@@ -39,6 +40,8 @@
             :url url
             :company-id id})) tuple))
 
+(s/fdef ->articles-entity
+        :ret seqable?)
 (defn ->articles-entity [{:keys [tags partition-number fns company]}]
   (-> (partition partition-number tags)
       (transform fns company)))
