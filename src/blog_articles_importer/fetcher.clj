@@ -44,7 +44,13 @@
                   ;; company
                   {:keys [id
                           short-name]}]
-  {:post [(s/valid? :blog-articles-importer/articles %)]}
+  {:pre [(s/valid? fn? id-fn)
+         (s/valid? fn? url-fn)
+         (s/valid? fn? title-fn)
+         (s/valid? fn? publish-date-fn)
+         (s/valid? int? id)
+         (s/valid? string? short-name)]
+   :post [(s/valid? :blog-articles-importer/articles %)]}
   (map (fn [[title link publish-date]]
          (let [url (url-fn link)]
            {:id (id-fn url short-name)
@@ -54,6 +60,8 @@
             :company-id id})) tuple))
 
 (defn ->articles-entity [{:keys [tags partition-number fns company]}]
+  {:pre [(s/valid? int? partition-number)
+         (s/valid? map? fns)]}
   (-> (partition partition-number tags)
       (transform fns company)))
 
