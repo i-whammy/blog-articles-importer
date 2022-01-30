@@ -17,6 +17,9 @@
 (defn collect-registered-ids [returned-articles]
   {:registered-ids (map :id returned-articles)})
 
+(s/fdef ->iso-local-date
+        :args (s/and (s/cat :publish-date string? :original-format #(instance? java.time.format.DateTimeFormatter %)))
+        :ret string?)
 (defn ->iso-local-date
   [publish-date original-format]
   (.format (java.time.OffsetDateTime/parse publish-date original-format)
