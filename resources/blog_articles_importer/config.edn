@@ -30,16 +30,22 @@
   :blog-articles-importer.usecase/get {:article-boundary #ig/ref :blog-articles-importer.driver/article
                                        :company-boundary #ig/ref :blog-articles-importer.driver/company}
 
-  :blog-articles-importer.driver/article {:a "b"}
-  :blog-articles-importer.driver/company {:a "b"}
+  :blog-articles-importer.driver/datasource {:adapter "postgresql"
+                                             :database-name #duct/env "DATABASE_NAME"
+                                             :username #duct/env "DATABASE_USER_NAME"
+                                             :password #duct/env "DATABASE_PASSWORD"
+                                             :server-name #duct/env "DATABASE_HOST"
+                                             :port-number #duct/env "DATABASE_PORT_NUMBER"}
+
+  :blog-articles-importer.driver/article {:datasource #ig/ref :blog-articles-importer.driver/datasource}
+  :blog-articles-importer.driver/company {:datasource #ig/ref :blog-articles-importer.driver/datasource}
 
   :blog-articles-importer/companies {:uzabase #ig/ref :blog-articles-importer.usecase.fetcher/uzabase
                                      :sansan #ig/ref :blog-articles-importer.usecase.fetcher/sansan
                                      :m3 #ig/ref :blog-articles-importer.usecase.fetcher/m3
                                      :mercari #ig/ref :blog-articles-importer.usecase.fetcher/mercari
                                      :line #ig/ref :blog-articles-importer.usecase.fetcher/line
-                                     :cyberagent #ig/ref :blog-articles-importer.usecase.fetcher/cyberagent
-                                     }}
+                                     :cyberagent #ig/ref :blog-articles-importer.usecase.fetcher/cyberagent}}
 
  :duct.profile/dev   #duct/include "dev"
  :duct.profile/local #duct/include "local"
