@@ -22,6 +22,7 @@
   :blog-articles-importer.usecase.fetcher/mercari {}
   :blog-articles-importer.usecase.fetcher/line {}
   :blog-articles-importer.usecase.fetcher/cyberagent {}
+  :blog-articles-importer.usecase.fetcher/cybozu {}
   :blog-articles-importer.usecase/register {:article-boundary #ig/ref :blog-articles-importer.driver/article
                                             :company-boundary #ig/ref :blog-articles-importer.driver/company
                                             :companies #ig/ref :blog-articles-importer/companies}
@@ -45,7 +46,8 @@
                                      :m3 #ig/ref :blog-articles-importer.usecase.fetcher/m3
                                      :mercari #ig/ref :blog-articles-importer.usecase.fetcher/mercari
                                      :line #ig/ref :blog-articles-importer.usecase.fetcher/line
-                                     :cyberagent #ig/ref :blog-articles-importer.usecase.fetcher/cyberagent}}
+                                     :cyberagent #ig/ref :blog-articles-importer.usecase.fetcher/cyberagent
+                                     :cybozu #ig/ref :blog-articles-importer.usecase.fetcher/cybozu}}
 
  :duct.profile/dev   #duct/include "dev"
  :duct.profile/local #duct/include "local"

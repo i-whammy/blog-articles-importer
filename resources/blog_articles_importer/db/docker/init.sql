@@ -19,4 +19,5 @@ INSERT INTO blog.company VALUES
 (3, 'エムスリー株式会社', 'm3'),
 (4, '株式会社メルカリ', 'mercari'),
 (5, '株式会社LINE', 'line'),
-(6, '株式会社サイバーエージェント', 'cyberagent');
+(6, '株式会社サイバーエージェント', 'cyberagent'),
+(7, 'サイボウズ株式会社', 'cybozu');
