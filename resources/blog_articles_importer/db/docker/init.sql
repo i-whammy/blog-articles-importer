@@ -21,4 +21,5 @@ INSERT INTO blog.company VALUES
 (5, '株式会社LINE', 'line'),
 (6, '株式会社サイバーエージェント', 'cyberagent'),
 (7, 'サイボウズ株式会社', 'cybozu'),
-(8, '株式会社はてな', 'hatena');
+(8, '株式会社はてな', 'hatena'),
+(9, '弁護士ドットコム株式会社', 'bengo4');
