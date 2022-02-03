@@ -25,6 +25,7 @@
   :blog-articles-importer.usecase.fetcher/cybozu {}
   :blog-articles-importer.usecase.fetcher/hatena {}
   :blog-articles-importer.usecase.fetcher/bengo4 {}
+  :blog-articles-importer.usecase.fetcher/yahoo {}
   :blog-articles-importer.usecase/register {:article-boundary #ig/ref :blog-articles-importer.driver/article
                                             :company-boundary #ig/ref :blog-articles-importer.driver/company
                                             :companies #ig/ref :blog-articles-importer/companies}
@@ -51,7 +52,8 @@
                                      :cyberagent #ig/ref :blog-articles-importer.usecase.fetcher/cyberagent
                                      :cybozu #ig/ref :blog-articles-importer.usecase.fetcher/cybozu
                                      :hatena #ig/ref :blog-articles-importer.usecase.fetcher/hatena
-                                     :bengo4 #ig/ref :blog-articles-importer.usecase.fetcher/bengo4}}
+                                     :bengo4 #ig/ref :blog-articles-importer.usecase.fetcher/bengo4
+                                     :yahoo #ig/ref :blog-articles-importer.usecase.fetcher/yahoo}}
 
  :duct.profile/dev   #duct/include "dev"
  :duct.profile/local #duct/include "local"
