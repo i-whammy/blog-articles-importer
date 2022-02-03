@@ -6,8 +6,7 @@
             [next.jdbc.result-set :as rs]))
 
 (hugsql/def-sqlvec-fns "blog_articles_importer/db/sql/article.sql")
-(declare store-articles-sqlvec)
-(declare get-articles-sqlvec)
+(declare store-articles-sqlvec get-articles-sqlvec)
 
 (defn- store* [datasource articles]
   (jdbc/execute! datasource (store-articles-sqlvec {:articles articles})
