@@ -10,11 +10,7 @@
         company-id))
 
 (defn ->articles-vec [articles]
-  (reduce
-   (fn [acc article]
-     (conj acc (->article-vec article)))
-   []
-   articles))
+  (map ->article-vec articles))
 
 (defprotocol Register
   (execute [self company]))

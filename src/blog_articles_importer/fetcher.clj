@@ -47,10 +47,7 @@
                   ;; company
                   {:keys [id
                           short-name]}]
-  {:pre [(s/valid? fn? id-fn)
-         (s/valid? fn? url-fn)
-         (s/valid? fn? title-fn)
-         (s/valid? fn? publish-date-fn)
+  {:pre [(s/valid? #(every? fn? %) [id-fn url-fn title-fn publish-date-fn])
          (s/valid? int? id)
          (s/valid? string? short-name)]
    :post [(s/valid? :blog-articles-importer/articles %)]}

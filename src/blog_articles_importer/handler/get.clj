@@ -4,9 +4,9 @@
             [blog-articles-importer.getter :refer [execute]]))
 
 (defmethod ig/init-key :blog-articles-importer.handler/get [_ options]
-  (fn [{[_ company] :ataraxy/result}]
-    (let [company-getter (:get options)
-          company-register (get-in options [:companies (keyword company)])]
-      (if (nil? company-register)
-        [::response/not-found "Invalid company name."]
-        [::response/ok (execute company-getter company)]))))
+  (let [company-getter (:get options)]
+    (fn [{[_ company] :ataraxy/result}]
+      (let [company-register (get-in options [:companies (keyword company)])]
+        (if (nil? company-register)
+          [::response/not-found "Invalid company name."]
+          [::response/ok (execute company-getter company)])))))
