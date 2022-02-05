@@ -23,4 +23,6 @@ INSERT INTO blog.company VALUES
 (7, 'サイボウズ株式会社', 'cybozu'),
 (8, '株式会社はてな', 'hatena'),
 (9, '弁護士ドットコム株式会社', 'bengo4'),
-(10, 'ヤフー株式会社', 'yahoo');
+(10, 'ヤフー株式会社', 'yahoo'),
+(11, 'クックパッド株式会社', 'cookpad'),
+(12, '株式会社ZOZO', 'zozo');
