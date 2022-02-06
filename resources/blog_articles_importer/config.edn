@@ -27,6 +27,7 @@
   :blog-articles-importer.usecase.fetcher/bengo4 {}
   :blog-articles-importer.usecase.fetcher/yahoo {}
   :blog-articles-importer.usecase.fetcher/zozo {}
+  :blog-articles-importer.usecase.fetcher/dena {}
   :blog-articles-importer.usecase/register {:article-boundary #ig/ref :blog-articles-importer.driver/article
                                             :company-boundary #ig/ref :blog-articles-importer.driver/company
                                             :companies #ig/ref :blog-articles-importer/companies}
@@ -55,7 +56,8 @@
                                      :hatena #ig/ref :blog-articles-importer.usecase.fetcher/hatena
                                      :bengo4 #ig/ref :blog-articles-importer.usecase.fetcher/bengo4
                                      :yahoo #ig/ref :blog-articles-importer.usecase.fetcher/yahoo
-                                     :zozo #ig/ref :blog-articles-importer.usecase.fetcher/zozo}}
+                                     :zozo #ig/ref :blog-articles-importer.usecase.fetcher/zozo
+                                     :dena #ig/ref :blog-articles-importer.usecase.fetcher/dena}}
 
  :duct.profile/dev   #duct/include "dev"
  :duct.profile/local #duct/include "local"
