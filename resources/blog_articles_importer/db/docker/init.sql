@@ -26,4 +26,5 @@ INSERT INTO blog.company VALUES
 (10, 'ヤフー株式会社', 'yahoo'),
 (11, 'クックパッド株式会社', 'cookpad'),
 (12, '株式会社ZOZO', 'zozo'),
-(13, '株式会社ディー・エヌ・エー', 'dena');
+(13, '株式会社ディー・エヌ・エー', 'dena'),
+(14, 'freee株式会社', 'freee');
