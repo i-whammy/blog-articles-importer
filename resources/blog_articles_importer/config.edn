@@ -29,6 +29,7 @@
   :blog-articles-importer.usecase.fetcher/zozo {}
   :blog-articles-importer.usecase.fetcher/dena {}
   :blog-articles-importer.usecase.fetcher/freee {}
+  :blog-articles-importer.usecase.fetcher/legalforce {}
   :blog-articles-importer.usecase/register {:article-boundary #ig/ref :blog-articles-importer.driver/article
                                             :company-boundary #ig/ref :blog-articles-importer.driver/company
                                             :companies #ig/ref :blog-articles-importer/companies}
@@ -59,7 +60,8 @@
                                      :yahoo #ig/ref :blog-articles-importer.usecase.fetcher/yahoo
                                      :zozo #ig/ref :blog-articles-importer.usecase.fetcher/zozo
                                      :dena #ig/ref :blog-articles-importer.usecase.fetcher/dena
-                                     :freee #ig/ref :blog-articles-importer.usecase.fetcher/freee}}
+                                     :freee #ig/ref :blog-articles-importer.usecase.fetcher/freee
+                                     :legalforce #ig/ref :blog-articles-importer.usecase.fetcher/legalforce}}
 
  :duct.profile/dev   #duct/include "dev"
  :duct.profile/local #duct/include "local"
