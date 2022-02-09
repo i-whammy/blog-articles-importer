@@ -28,4 +28,5 @@ INSERT INTO blog.company VALUES
 (12, '株式会社ZOZO', 'zozo'),
 (13, '株式会社ディー・エヌ・エー', 'dena'),
 (14, 'freee株式会社', 'freee'),
-(15, '株式会社LegalForce', 'legalforce');
+(15, '株式会社LegalForce', 'legalforce'),
+(16, 'キャディ株式会社', 'caddi');
