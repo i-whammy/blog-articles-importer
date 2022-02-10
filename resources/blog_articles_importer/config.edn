@@ -31,6 +31,7 @@
   :blog-articles-importer.usecase.fetcher/freee {}
   :blog-articles-importer.usecase.fetcher/legalforce {}
   :blog-articles-importer.usecase.fetcher/caddi {}
+  :blog-articles-importer.usecase.fetcher/andpad {}
   :blog-articles-importer.usecase/register {:article-boundary #ig/ref :blog-articles-importer.driver/article
                                             :company-boundary #ig/ref :blog-articles-importer.driver/company
                                             :companies #ig/ref :blog-articles-importer/companies}
@@ -63,7 +64,8 @@
                                      :dena #ig/ref :blog-articles-importer.usecase.fetcher/dena
                                      :freee #ig/ref :blog-articles-importer.usecase.fetcher/freee
                                      :legalforce #ig/ref :blog-articles-importer.usecase.fetcher/legalforce
-                                     :caddi #ig/ref :blog-articles-importer.usecase.fetcher/caddi}}
+                                     :caddi #ig/ref :blog-articles-importer.usecase.fetcher/caddi
+                                     :andpad #ig/ref :blog-articles-importer.usecase.fetcher/andpad}}
 
  :duct.profile/dev   #duct/include "dev"
  :duct.profile/local #duct/include "local"
