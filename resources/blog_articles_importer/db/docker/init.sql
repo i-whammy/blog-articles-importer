@@ -31,4 +31,5 @@ INSERT INTO blog.company VALUES
 (15, '株式会社LegalForce', 'legalforce'),
 (16, 'キャディ株式会社', 'caddi'),
 (17, '株式会社アンドパッド', 'andpad'),
-(18, '株式会社PR TIMES', 'prtimes');
+(18, '株式会社PR TIMES', 'prtimes'),
+(19, '株式会社Smart HR', 'prtimes');
