@@ -32,4 +32,5 @@ INSERT INTO blog.company VALUES
 (16, 'キャディ株式会社', 'caddi'),
 (17, '株式会社アンドパッド', 'andpad'),
 (18, '株式会社PR TIMES', 'prtimes'),
-(19, '株式会社Smart HR', 'prtimes');
+(19, '株式会社Smart HR', 'smarthr'),
+(20, '株式会社ラクス', 'rakus');
