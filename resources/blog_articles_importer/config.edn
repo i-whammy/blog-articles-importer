@@ -4,12 +4,14 @@
 
   :duct.router/ataraxy
   {:routes {[:get "/ping"] [:blog-articles-importer.handler/ping]
+            [:get "/companies"] [:blog-articles-importer.handler/companies]
             "/articles" ^:camelizer
             {[:put #{company}] [:blog-articles-importer.handler/register company]
              [:get #{company}] [:blog-articles-importer.handler/get company]}}
    :middleware {:camelizer #ig/ref :blog-articles-importer.middleware/camelizer}}
 
   :blog-articles-importer.handler/ping {}
+  :blog-articles-importer.handler/companies {:company-boundary #ig/ref :blog-articles-importer.driver/company}
   :blog-articles-importer.handler/register {:register #ig/ref :blog-articles-importer.usecase/register}
   :blog-articles-importer.handler/get {:companies #ig/ref :blog-articles-importer/companies
                                        :get #ig/ref :blog-articles-importer.usecase/get}
