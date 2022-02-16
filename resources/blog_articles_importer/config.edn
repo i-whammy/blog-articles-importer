@@ -37,6 +37,7 @@
   :blog-articles-importer.usecase.fetcher/prtimes {}
   :blog-articles-importer.usecase.fetcher/smarthr {}
   :blog-articles-importer.usecase.fetcher/rakus {}
+  :blog-articles-importer.usecase.fetcher/mediado {}
   :blog-articles-importer.usecase/register {:article-boundary #ig/ref :blog-articles-importer.driver/article
                                             :company-boundary #ig/ref :blog-articles-importer.driver/company
                                             :companies #ig/ref :blog-articles-importer/companies}
@@ -73,7 +74,8 @@
                                      :andpad #ig/ref :blog-articles-importer.usecase.fetcher/andpad
                                      :prtimes #ig/ref :blog-articles-importer.usecase.fetcher/prtimes
                                      :smarthr #ig/ref :blog-articles-importer.usecase.fetcher/smarthr
-                                     :rakus #ig/ref :blog-articles-importer.usecase.fetcher/rakus}}
+                                     :rakus #ig/ref :blog-articles-importer.usecase.fetcher/rakus
+                                     :mediado #ig/ref :blog-articles-importer.usecase.fetcher/mediado}}
 
  :duct.profile/dev   #duct/include "dev"
  :duct.profile/local #duct/include "local"
