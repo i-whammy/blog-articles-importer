@@ -29,7 +29,6 @@ INSERT INTO blog.company VALUES
 (13, '株式会社ディー・エヌ・エー', 'dena'),
 (14, 'freee株式会社', 'freee'),
 (15, '株式会社LegalForce', 'legalforce'),
-(16, 'キャディ株式会社', 'caddi'),
 (17, '株式会社アンドパッド', 'andpad'),
 (18, '株式会社PR TIMES', 'prtimes'),
 (19, '株式会社Smart HR', 'smarthr'),

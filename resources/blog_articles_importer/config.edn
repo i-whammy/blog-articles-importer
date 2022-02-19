@@ -32,7 +32,6 @@
   :blog-articles-importer.usecase.fetcher/dena {}
   :blog-articles-importer.usecase.fetcher/freee {}
   :blog-articles-importer.usecase.fetcher/legalforce {}
-  :blog-articles-importer.usecase.fetcher/caddi {}
   :blog-articles-importer.usecase.fetcher/andpad {}
   :blog-articles-importer.usecase.fetcher/prtimes {}
   :blog-articles-importer.usecase.fetcher/smarthr {}
@@ -70,7 +69,6 @@
                                      :dena #ig/ref :blog-articles-importer.usecase.fetcher/dena
                                      :freee #ig/ref :blog-articles-importer.usecase.fetcher/freee
                                      :legalforce #ig/ref :blog-articles-importer.usecase.fetcher/legalforce
-                                     :caddi #ig/ref :blog-articles-importer.usecase.fetcher/caddi
                                      :andpad #ig/ref :blog-articles-importer.usecase.fetcher/andpad
                                      :prtimes #ig/ref :blog-articles-importer.usecase.fetcher/prtimes
                                      :smarthr #ig/ref :blog-articles-importer.usecase.fetcher/smarthr
