@@ -24,7 +24,6 @@ INSERT INTO blog.company VALUES
 (8, '株式会社はてな', 'hatena'),
 (9, '弁護士ドットコム株式会社', 'bengo4'),
 (10, 'ヤフー株式会社', 'yahoo'),
-(11, 'クックパッド株式会社', 'cookpad'),
 (12, '株式会社ZOZO', 'zozo'),
 (13, '株式会社ディー・エヌ・エー', 'dena'),
 (14, 'freee株式会社', 'freee'),
@@ -32,4 +31,6 @@ INSERT INTO blog.company VALUES
 (17, '株式会社アンドパッド', 'andpad'),
 (18, '株式会社PR TIMES', 'prtimes'),
 (19, '株式会社Smart HR', 'smarthr'),
-(20, '株式会社ラクス', 'rakus');
+(20, '株式会社ラクス', 'rakus'),
+(21, '株式会社メディアドゥ', 'mediado'),
+(21, '株式会社エス・エム・エス', 'sms');
