@@ -33,4 +33,4 @@ INSERT INTO blog.company VALUES
 (19, '株式会社Smart HR', 'smarthr'),
 (20, '株式会社ラクス', 'rakus'),
 (21, '株式会社メディアドゥ', 'mediado'),
-(21, '株式会社エス・エム・エス', 'sms');
+(22, '株式会社エス・エム・エス', 'sms');
