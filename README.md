@@ -67,4 +67,4 @@ lein test
 
 ## Legal
 
-Copyright © 2021 FIXME
+Copyright © 2021 i-whammy
